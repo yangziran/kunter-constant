@@ -11,18 +11,12 @@
 
 
 
-## 基础代码生成
+## 基础数据生成
 
 生成文件列表：
-- BaseDAO
-- DAO
-- BaseMapper
-- Mapper
-- EO(实体)
-- EOExample(实体对应查询条件)
-- mybatis-config-*.xml
-- CreateTableSQL-*.sql(从EXCEL设计文档生成指定数据库的建表语句)
-- 表结构一览.xlsx(从数据库生成EXCEL设计文档)
+- 数据模板
+- SQL（ 基础数据插入脚本）
+- Java（系统常量类）
 
 配置说明：
 ####1. 配置文件目录：/src/main/resources
@@ -36,78 +30,18 @@
 >>  [d] DB.xx：数据库连接属性，数据库类型相关连接属性，设置DB类型必须设值
 
 > 1.2 config.properties
->>  [a] model：模块名称，默认表前缀，例：base
-
->>  [b] package：基础包名，所有包前缀，例：com.kunter
+>>  [b] package：包名，例：cn.kunter.constant.common.constant
 
 >>  [c] table：表名称，支持通配符 ** 数据源类型为EXCEL，则参数无效 建议使用EXCEL的时候分模块保存设计文档 **
 
->>  [d] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
-
->>>  根据以上配置，模拟生成如下所述文件：
->>>    * BaseDAO：com.kunter.base.dao.base
->>>    * DAO：com.kunter.base.dao
->>>    * BaseMapper：com/kunter/base/xml/base
->>>    * Mapper：com/kunter/base/xml
->>>    * EO：com.kunter.base.eo
->>>    * EOExample：com.kunter.base.eo
->>>    * mybatis-config-base.xml：指定的target目录下
->>>    * 如果target参数直接指定的开发项目，如果需要，手动将BaseMapper和Mapper挪到/src/main/resources
+>>  [d] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-constant下的target/
 
 ### Main
-> org/generator/main/Generator.java
+> cn/kunter/common/constant/make/MakeConstant.java 常量类生成
 
-### 单文件生成
-> org/generator/make/Make*.java
+> cn/kunter/common/constant/make/MakeExcel.java 数据模板生成
 
-### DAO方法列表
-* int countByExample(<?>Example example);
-* int countByExample_physical(<?>Example example);
-* List<?> selectByExample(<?>Example example);
-* List<?> selectByExample_physical(<?>Example example);
-* int insert(<?> record);
-* int insert_physical(<?> record);
-* int insertList(List<?> record);
-* int insertList_physical(List<?> record);
-* int insertSelective(<?> record);
-* int insertSelective_physical(<?> record);
-* int insertListSelective(List<?> record);
-* int insertListSelective_physical(List<?> record);
-* int updateByExample(@Param("record") <?> record, @Param("example") <?>Example example);
-* int updateByExample_physical(@Param("record") <?> record, @Param("example") <?>Example example);
-* int updateByExampleSelective(@Param("record") <?> record, @Param("example") <?>Example example);
-* int updateByExampleSelective_physical(@Param("record") <?> record, @Param("example") <?>Example example);
-* int deleteByExample(<?>Example example);
-* int deleteByExample_physical(<?>Example example);
-* <?> selectByPrimaryKey(Map<String, Object> map);
-* <?> selectByPrimaryKey_physical(Map<String, Object> map);
-* int updateByPrimaryKey(<?> record);
-* int updateByPrimaryKey_physical(<?> record);
-* int updateByPrimaryKeySelective(<?> record);
-* int updateByPrimaryKeySelective_physical(<?> record);
-* int deleteByPrimaryKey(Map<String, Object> map);
-* int deleteByPrimaryKey_physical(Map<String, Object> map);
-
-> <?>为对应实体，ByPrimaryKey的方法有主键时生成，_physical包含表中所有数据，无_physical的包含删除标识未标识删除的数据
-
-### 示例
-
-        <?>Example example = new <?>Example();
-        example.or().andxxEqualTo(XXX);
-        example.or().andxxEqualTo(XXX);
-        example.or().andxxEqualTo(XXX);
-
-        List<?> list = <?>Dao.selectByExample(example);
-
-#####或
-
-        <?>Example example = new <?>Example();
-        <?>Example.Criteria criteria = example.createCriteria();
-        criteria.andxxEqualTo(XXX);
-        criteria.andxxEqualTo(XXX);
-        criteria.andxxEqualTo(XXX);
-
-        List<?> list = <?>Dao.selectByExample(example);
+> cn/kunter/common/constant/make/MakeSQL.java SQL脚本生成
 
 # 技术交流
 * 邮箱：nature@kunter.cn‍
