@@ -36,7 +36,8 @@ public class GetData {
         Connection connection = ConnectionFactory.getConnection();
         Statement statement = connection.createStatement();
         // 执行SQL
-        ResultSet resultSet = statement.executeQuery("select * from " + table.getTableName());
+        ResultSet resultSet = statement
+                .executeQuery("select * from " + table.getTableName() + " ORDER BY const_id, serial_number");
 
         // 遍历结果集
         List<Map<String, Object>> dataList = new ArrayList<>();
